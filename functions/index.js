@@ -56,10 +56,28 @@ const pgLinks = (num, activePg) => {
     return paginationLinks
 }
 
+
+const findTotalAndShipping = (cart) => {
+    const qtys = cart.items.map( i => parseInt(i.qty) )
+    // this sums up the the array of qtys which are numbers using a reduce function 
+    const sum  = qtys.reduce((a, b) => a + b, 0)
+
+    //gets total amount of shipping cost. for concepts sake, shipping is a flat $5 per item
+    const shipping = sum * 5
+    // over all cost is cart.total + shipping
+    const totalCost = cart.total + shipping
+
+    return {
+        shipping: shipping, totalCost: totalCost
+    }
+
+}
+
 module.exports = {
     randomString: randomString,
     isAuth: isAuth,
     isAdmin: isAdmin,
     paginationArrays: paginationArrays,
-    pgLinks: pgLinks
+    pgLinks: pgLinks,
+    findTotalAndShipping: findTotalAndShipping
 }

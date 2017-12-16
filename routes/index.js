@@ -41,6 +41,13 @@ router.post("/update-cart",			cartController.updateCart )
 router.get("/checkout", cartController.checkout)
 router.post("/checkout", cartController.checkoutPost)
 
+// purchases
+router.get("/purchases", (req, res) => {
+	res.status(200).json({
+		works: true
+	})
+})
+
 // experimental route used to test code before use
 router.get("/example", (req, res) => {
 	const cart = req.vertexSession.cart
@@ -69,6 +76,10 @@ router.get("/remover-alert", (req, res) => {
 	req.vertexSession.msg =  { show: false, text:'', type:'' }
 	console.log('works')
 	res.status(200).json({success: true})
+})
+
+router.get('*', (req, res) => {
+	res.render('general/404')
 })
 
 module.exports = router

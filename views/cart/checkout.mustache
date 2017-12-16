@@ -23,8 +23,8 @@
 
                     <form class="row gap-y" action="/checkout" method="POST" id="payment-form" >
 
-                        <div class="col-12 col-lg-8">
-
+                        <div class="col-12 col-lg-8"> 
+                            {{>alerts}}
                             <table class="table table-cart">
                                 <tbody valign="middle">
                                 
@@ -57,21 +57,27 @@
                     
                             <div class="row">
                                 <div class="col-12 col-md-6 form-group">
-                                    <input class="form-control" type="text" name="firstName" placeholder="First name">
+                                    <input class="form-control" type="text" 
+                                        name="firstName" placeholder="First name" required
+                                    >
                                 </div>
 
                                 <div class="col-12 col-md-6 form-group">
-                                    <input class="form-control" type="text" name="lastName" placeholder="Last name">
+                                    <input class="form-control" type="text" 
+                                        name="lastName" placeholder="Last name" required
+                                    >
                                 </div>
 
                                 <div class="col-12 col-md-6 form-group">
-                                    <input class="form-control" type="number" name="phoneNum" placeholder="Phone Number">
+                                    <input class="form-control" type="text" 
+                                        name="phoneNum" placeholder="Phone Number" required
+                                    >
                                 </div>
                             </div>
 
                             <div class="col-12 col-md-6 form-group">
                                 <label>State:</label>
-                                <select class="form-control">
+                                <select class="form-control" name="state" required >
                                     <option value="NewYork" >New York</option>
                                     <option value="California" >California</option>
                                     <option value="Florida">Florida</option>
@@ -81,23 +87,33 @@
                             </div>
 
                             <div class="col-12 col-md-6 form-group">
-                                <input class="form-control" name="city" type="text" placeholder="City">
+                                <input class="form-control" name="city" 
+                                    type="text" placeholder="City" required
+                                >
                             </div>
 
                             <div class="col-12 col-md-6 form-group">
-                                <input class="form-control" name="zipcode" type="text" placeholder="Zip Code">
+                                <input class="form-control" name="zipcode" 
+                                    type="text" placeholder="Zip Code" required
+                                >
                             </div>
 
                             <div class="col-12 form-group">
-                                <input class="form-control" name="address1" type="text" placeholder="Address Line 1">
+                                <input class="form-control" name="address1" 
+                                    type="text" placeholder="Address Line 1" required
+                                >
                             </div>
 
                             <div class="col-12 form-group">
-                                <input class="form-control" name="address2" type="text" placeholder="Address Line 2">
+                                <input class="form-control" name="address2" 
+                                    type="text" placeholder="Address Line 2"
+                                >
                             </div>
 
                             <div class="col-12 form-group">
-                                <textarea class="form-control" name="instructions" placeholder="Additional instructions" rows="5"></textarea>
+                                <textarea class="form-control" name="instructions" 
+                                    placeholder="Additional instructions" rows="5"
+                                ></textarea>
                             </div>
 
                         </div>
@@ -148,7 +164,12 @@
 
                             <div class="flexbox">
                                 <a class="btn btn-secondary" href="/cart"><i class="ti-angle-left fs-9"></i> Revise</a>
-                                <button class="btn btn-primary" type="submit">Checkout <i class="ti-angle-right fs-9"></i></button>
+
+                                <button class="btn btn-primary" type="submit" id="submitBtn" >
+                                    Checkout <i class="ti-angle-right fs-9"></i>
+                                </button>
+
+                                <h2 id="proccessingh2" >Processing...</h2>
                             </div>
 
                         </div>
@@ -164,7 +185,7 @@
         <script src="js/stripe.js"></script>
         <script type="text/javascript" >
             $(function(){
-
+                $("#proccessingh2").hide()
             })
         </script>
     </body>

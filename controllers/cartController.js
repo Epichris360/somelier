@@ -1,7 +1,7 @@
 const turbo       = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const collections = require('../collections')
 const stripe      = require("stripe")("sk_test_PriIYXaLvWm5L0uTm8fEIr4i");
-
+const functions   = require('../functions')
 
 
 const addToCart = (req, res) => {
@@ -122,20 +122,12 @@ const show = (req, res) => {
         res.render('cart/show',{ cart: cart, showImg: showImg, showCart: !showImg })
     }
 
-    // make shipping a standard of 5$ per item for concepts sake
-    // no taxes
-    // the below gets an array of qtys from the different wines
-    const qtys = cart.items.map( i => parseInt(i.qty) )
-    // this sums up the the array of qtys which are numbers using a reduce function 
-    const sum  = qtys.reduce((a, b) => a + b, 0)
-
-    //gets total amount of shipping cost. for concepts sake, shipping is a flat $5 per item
-    const shipping = sum * 5
-    // over all cost is cart.total + shipping
-    const totalCost = cart.total + shipping
+    // sends cart to get cost of shipping( which is a 5$ flat rate * quantities )
+    // and also gets the totalCost which is just sum wines + shipping
+    const result = functions.findTotalAndShipping(cart)
 
     res.render('cart/show',{ cart: cart, showImg: showImg, showCart: !showImg, 
-        shipping: shipping, totalCost: totalCost
+        shipping: result.shipping, totalCost: result.totalCost
     })
     return
 }
@@ -184,35 +176,93 @@ const removeFromCart = (req, res) => {
 
 const checkout = (req, res) => {
     const cart = req.vertexSession.cart
-
-    const qtys = cart.items.map( i => parseInt(i.qty) )
-    // this sums up the the array of qtys which are numbers using a reduce function 
-    const sum  = qtys.reduce((a, b) => a + b, 0)
-
-    //gets total amount of shipping cost. for concepts sake, shipping is a flat $5 per item
-    const shipping = sum * 5
-    // over all cost is cart.total + shipping
-    const totalCost = cart.total + shipping
-
-    res.render('cart/checkout',{ cart: cart, totalCost: totalCost, shipping: shipping })
+ 
+    const result = functions.findTotalAndShipping(cart)
+    
+    res.render('cart/checkout',{ cart: cart, totalCost: result.totalCost, shipping: result.shipping })
 }
 
 const checkoutPost = (req, res) => {
+    const cart   = req.vertexSession.cart
+    const result = functions.findTotalAndShipping(cart)
+    const user   = req.vertexSession.user
+
     // Token is created using Checkout or Elements!
     // Get the payment token ID submitted by the form:
-    var token = request.body.stripeToken; // Using Express
+    const token  = req.body.stripeToken; // Using Express
 
     // Charge the user's card:
     stripe.charges.create({
-        amount: 1000,
+        amount: (result.totalCost * 100),
         currency: "usd",
-        description: "Example charge",
+        description: "Super Awesome Wines!",
         source: token,
-
         }, 
         function(err, charge) {
         // asynchronously called
-    });
+        if(err){
+            //if there's an error, it returns back to the previous route with an error warning
+            req.vertexSession.msg = { show: true, text: err.message , type:'danger' }
+            res.redirect('back')
+            return  
+        }
+        // creation of the purchase object
+        const purchase = {
+            charge: charge,
+            cart: {
+                numItems: cart.numItems, items: cart.items,
+                total: cart.total, user_id: cart.user_id
+            },
+            totalCost: result.totalCost,
+            created_at: new Date(),
+            updated_at: new Date(),
+            user_id: user.id,
+            customerInfo:{
+                firstName: req.body.firstName, lastName: req.body.lastName, phoneNum: req.body.phoneNum,
+                state:  req.body.state, city: req.body.city, zipcode: req.body.zipcode,
+                address1: req.body.address1, address2: req.body.address2,
+                instructions: req.body.instructions
+            }
+        }
+
+        res.status(200).json({
+            purchase: purchase,
+
+        })
+        return
+
+        //submits the purchase object to the turbo datastore
+        turbo.create( collections.purchases, purchase )
+        .then(data => {
+            return
+        })
+        .then( () => {
+            //deletes the old cart
+            turbo.removeEntity( collections.carts, cart.id )
+            .then(data => {
+                return
+            })
+            return
+        })
+        .then( () => {
+            //creates a new empty cart
+            const newCart = { user_id: user_id , items:[], total:0, numItems:0 }
+            turbo.create( collections.carts, newCart )
+            .then(data => {
+                req.vertexSession.cart = data
+                res.redirect("/")
+                return
+            })
+            return
+        })
+        .catch(err => {
+            // if there's an error this sends the user back to the previous route along
+            // with an error as to why
+            req.vertexSession.msg = { show: true, text: err.message , type:'danger' }
+            res.redirect('back')
+            return  
+        })
+    })
 }
 
 module.exports = {

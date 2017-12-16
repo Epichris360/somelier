@@ -42,10 +42,14 @@ card.addEventListener('change', function(event) {
 // Handle form submission
 var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(event) {
+  $("#submitBtn").hide()
+  $("#proccessingh2").show()
   event.preventDefault();
 
   stripe.createToken(card).then(function(result) {
     if (result.error) {
+      $("#submitBtn").show()
+      $("#proccessingh2").hide()
       // Inform the user if there was an error
       var errorElement = document.getElementById('card-errors');
       errorElement.textContent = result.error.message;
@@ -67,4 +71,4 @@ function stripeTokenHandler(token) {
   
     // Submit the form
     form.submit();
-  }
+}
