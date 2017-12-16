@@ -1,0 +1,115 @@
+{{>top}}
+    {{>navbar}}
+    
+    <body>
+        <!-- Header -->
+        <header class="header header-inverse bg-fixed" style="background-image: url(img/bg-grape-vine.jpg)" data-overlay="8">
+            <div class="container text-center">
+
+                <div class="row">
+                    <div class="col-12 col-lg-8 offset-lg-2">
+
+                        <h1>{{wine.name}}</h1>
+                        <p class="fs-20 opacity-70">Experience the Taste</p>
+
+                    </div>
+                </div>
+        
+            </div>
+        </header>
+        <!-- END Header -->
+
+        <main class="main-content">
+
+            <section class="section bb-1">
+        <div class="container">
+          
+            <div class="row">
+                <div class="col-12 col-md-8">
+                    {{>alerts}}
+                    <div class="swiper-container">
+                        <div class="swiper-wrapper">
+                            {{#wine.images}}
+                            <div class="swiper-slide text-center"><img src="{{.}}" alt="..."></div>
+                            {{/wine.images}}
+                        </div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+
+
+            <div class="col-12 col-md-4">
+              <br>
+              <h5>{{wine.name}}</h5>
+
+              <p>
+                <span class="lead ml-20">${{wine.price}}</span>
+              </p>
+              <hr>
+
+              <form action="/add-to-cart-{{wine.slug}}" method="POST" id="qtyForm" >
+
+                <div class="row">
+                  <div class="col form-group">
+                    <input class="form-control" type="text" name="qty" placeholder="Quantity" required >
+                  </div>
+
+                  <div class="col form-group">
+                    <button id="qtySubmitBtn" class="btn btn-block btn-primary">Add to cart</button>
+                    <h1 id="loading"  >Submitting...</h1>
+                  </div>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+
+
+          <br>
+          <hr>
+          <br>
+
+
+          <div class="row">
+            <div class="col-12 col-lg-8 offset-lg-2">
+              <h5>Description</h5>
+              {{#description}}
+                <p>{{.}}</p>
+              {{/description}}
+
+              <h6>Warranty</h6>
+              <p>Pok pok everyday carry iceland kitsch commodo, leggings poutine wayfarers tempor. Gluten-free lyft laborum, elit brooklyn ad pariatur man braid ennui single-origin coffee franzen exercitation hashtag. Anim messenger bag pork belly taiyaki nostrud sint ipsum lyft four dollar toast in organic authentic twee post-ironic occupy. In sustainable vaporware, leggings beard woke jianbing DIY jean shorts deep v mixtape. Humblebrag hashtag lumbersexual tote bag. Wolf bespoke plaid commodo jianbing coloring book. Whatever taxidermy deserunt, microdosing air plant plaid fingerstache gastropub selvage chillwave next level.</p>
+
+              <h6>Shipping info</h6>
+              <p>Incididunt jianbing cronut venmo ea freegan. Biodiesel drinking vinegar bushwick paleo flexitarian. Sartorial jianbing mlkshk eu plaid etsy hashtag scenester humblebrag authentic ullamco forage fugiat cliche. Pour-over flannel aesthetic cardigan, ennui labore mixtape pitchfork. Marfa microdosing normcore, nulla officia ramps vexillologist whatever jianbing skateboard pabst laborum blog glossier.</p>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+
+
+    </main>
+
+
+
+        {{>footer}}
+        {{>scripts}}
+
+        <script type="text/javascript" >
+            $(function(){
+                $("#loading").hide()
+                
+                $("#qtyForm").on('submit', function(event){
+                    $("#qtySubmitBtn").hide()
+                    $("#loading").show()
+                })
+            })
+        </script>
+
+    </body>
+
+</html>

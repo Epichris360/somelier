@@ -1,0 +1,25 @@
+{
+  "name": "CoffeeBrain",
+  "version": "0.0.0",
+  "server": false,
+  "private": true,
+  "scripts": {
+    "test": "",
+    "build": ""
+  },
+  "dependencies": {
+    "nodemon": "latest",
+    "stripe": "^5.4.0",
+    "turbo360": "latest",
+    "vertex360": "latest"
+  },
+  "devDependencies": {
+    "express": "latest",
+    "rimraf": "latest"
+  },
+  "app": "5a2b1ef8dc59a30014c6cb44",
+  "deploy": [
+    "."
+  ],
+  "format": "vertex"
+}

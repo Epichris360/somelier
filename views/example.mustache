@@ -1,0 +1,52 @@
+{{>top}}
+    
+    <body>
+        <h1>Image Uploading Experiment:</h1>
+        <hr>
+        <form action="/example" method="post">
+            <button class="btn btn-outline btn-default" id="btn-file-select" name="picture">
+                file upload!
+            </button>
+            <br> <br>
+            <input type="hidden" id="imagesInput" name="images">
+            <input type="submit" name="Submit" value="submit" >
+        </form>
+    </body>
+
+    {{>scripts}}
+
+    <script type="text/javascript" >
+
+        $(function(){
+			var currentFiles = []
+			var turbo = Turbo({site_id: '5a2b1ef8dc59a30014c6cb44'}) // Enter your TURBO_APP_ID here 
+
+			$('#btn-file-select').click(function(event){
+				event.preventDefault()
+
+				turbo.uploadFile(function(err, data){
+					if (err){
+						alert('File Upload Error: ' + err.message)
+						return
+					}
+
+					if (data.confirmation != 'success'){
+						alert('Error: ' + data.message)
+
+						return
+					}
+
+                    var file = data.result.url
+                    currentFiles.unshift(file)
+                    $("#imagesInput").val(JSON.stringify(currentFiles))
+                    console.log("imagesInput: ", $("#imagesInput").val() )
+					alert('File Uploaded. Navigate to your Turbo project dashboard and click the "Storage" section to view your current files.')
+				})
+			})
+
+		})
+
+
+    </script>
+
+</html>

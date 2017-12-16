@@ -1,0 +1,134 @@
+{{>top}}
+{{>navbar}}
+	
+  <body>
+    <!-- Header -->
+    <header class="header header-inverse h-fullscreen pb-80" style="background-image: url(img/bg-cup.jpg);" data-overlay="8">
+      <div class="container text-center">
+
+        <div class="row h-full">
+          <div class="col-12 col-lg-8 offset-lg-2 align-self-center">
+
+            <h1 class="display-4 hidden-sm-down">Amazing Wines & You</h1>
+            <h1 class="hidden-md-up">Taste. Enjoy. Live.</h1>
+            <br>
+            <p class="lead text-white fs-20 hidden-sm-down">
+              <span class="fw-400"> Taste. Enjoy. Live. </span>.
+            </p>
+
+            <br><br><br>
+            {{#vertexSession.user.notloggedIn}}
+              <a class="btn btn-lg btn-round w-200 btn-primary mr-16" href="/signup" data-scrollto="section-intro">
+                SignUp
+              </a>
+            {{/vertexSession.user.notloggedIn}}
+            <a class="btn btn-lg btn-round w-200 btn-outline btn-white hidden-sm-down" href="/tastings" data-scrollto="section-intro">
+              Wine Tastings
+            </a>
+
+          </div>
+
+          <div class="col-12 align-self-end text-center">
+            <a class="scroll-down-1 scroll-down-inverse" href="#" data-scrollto="section-intro"><span></span></a>
+          </div>
+
+        </div>
+
+      </div>
+    </header>
+
+    <main class="main-content">
+
+      <section class="section" id="section-intro">
+        <div class="container">
+          <header class="section-header">
+            <small>Headers</small>
+            <h2>More Headers</h2>
+            <hr>
+            <p class="lead">TheSaaS includes several header examples which can be use just by copy and paste the code</p>
+          </header>
+
+
+          <div class="row gap-y">
+            
+            <div class="col-12 col-md-6 col-lg-4">
+              <a class="text-center" href="header-color.html">
+                <p><img class="shadow-2 hover-shadow-5" src="img/header-color.jpg" alt="..."></p>
+                <h6>Solid Color</h6>
+              </a>
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <a class="text-center" href="header-gradient.html">
+                <p><img class="shadow-2 hover-shadow-5" src="img/header-gradient.jpg" alt="..."></p>
+                <h6>Gradient</h6>
+              </a>
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <a class="text-center" href="header-particle.html">
+                <p><img class="shadow-2 hover-shadow-5" src="img/header-particle.jpg" alt="..."></p>
+                <h6>Particle</h6>
+              </a>
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <a class="text-center" href="header-typing.html">
+                <p><img class="shadow-2 hover-shadow-5" src="img/header-typing.jpg" alt="..."></p>
+                <h6>Typing Text</h6>
+              </a>
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <a class="text-center" href="header-image.html">
+                <p><img class="shadow-2 hover-shadow-5" src="img/header-image.jpg" alt="..."></p>
+                <h6>Background Image</h6>
+              </a>
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <a class="text-center" href="header-video.html">
+                <p><img class="shadow-2 hover-shadow-5" src="img/header-video.jpg" alt="..."></p>
+                <h6>Background Video</h6>
+              </a>
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <a class="text-center" href="header-parallax.html">
+                <p><img class="shadow-2 hover-shadow-5" src="img/header-parallax.jpg" alt="..."></p>
+                <h6>Parallax</h6>
+              </a>
+            </div>
+
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <a class="text-center" href="header-slider.html">
+                <p><img class="shadow-2 hover-shadow-5" src="img/header-slider.jpg" alt="..."></p>
+                <h6>Slider</h6>
+              </a>
+            </div>
+
+          </div>
+
+
+        </div>
+      </section>
+    </main>
+
+    {{>footer}}
+    <!-- END Header -->
+
+    {{>scripts}}
+
+    <script>
+      // page specific javascript or jquery go here
+    </script>
+
+  </body>
+</html>
