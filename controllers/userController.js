@@ -2,8 +2,12 @@ const turbo           = require('turbo360')({site_id: process.env.TURBO_APP_ID})
 const constants       = require('../constants')
 const cartController  = require('./cartController')
 const collections     = require('../collections')
+const functions       = require('../functions')
 
 const signupGet = (req,res) => {
+    const user = req.vertexSession.user
+    functions.isSignedIn(user, res)
+
     // get request for signin screen
     res.render('user/signup')
 }
@@ -44,6 +48,10 @@ const updateUser = (req, res) => {
 }
 
 const signInGet = (req, res) => {
+    //stops user from accessing this route after having signedin
+    const user = req.vertexSession.user
+    functions.isSignedIn(user, res)
+
     res.render('user/signin')
 }
 

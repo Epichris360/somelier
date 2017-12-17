@@ -5,6 +5,11 @@ const functions   = require('../functions')
 
 
 const addToCart = (req, res) => {
+    //this gets the user from the session and makes sure that the
+    //user is logged in. else it sends the user to the root route ie "/"
+    const user = req.vertexSession.user
+    functions.isAuth(user, res)
+
     const slug = req.params.slug
     const data = req.body
     const qty  = data.qty
@@ -116,6 +121,11 @@ const updateCart = ( req, res ) => {
 const show = (req, res) => {
     const cart = req.vertexSession.cart
 
+    //this gets the user from the session and makes sure that the
+    //user is logged in. else it sends the user to the root route ie "/"
+    const user = req.vertexSession.user
+    functions.isAuth(user, res)
+
     const showImg = cart.numItems == 0 
 
     if(showImg){
@@ -133,6 +143,11 @@ const show = (req, res) => {
 }
 
 const removeFromCart = (req, res) => {
+    //this gets the user from the session and makes sure that the
+    //user is logged in. else it sends the user to the root route ie "/"
+    const user = req.vertexSession.user
+    functions.isAuth(user, res)
+
     //gets slug
     const slug = req.params.slug
     //gets cart
@@ -175,6 +190,11 @@ const removeFromCart = (req, res) => {
 }
 
 const checkout = (req, res) => {
+    //this gets the user from the session and makes sure that the
+    //user is logged in. else it sends the user to the root route ie "/"
+    const user = req.vertexSession.user
+    functions.isAuth(user, res)
+
     const cart = req.vertexSession.cart
  
     const result = functions.findTotalAndShipping(cart)
@@ -225,12 +245,6 @@ const checkoutPost = (req, res) => {
             }
         }
 
-        res.status(200).json({
-            purchase: purchase,
-
-        })
-        return
-
         //submits the purchase object to the turbo datastore
         turbo.create( collections.purchases, purchase )
         .then(data => {
@@ -242,15 +256,15 @@ const checkoutPost = (req, res) => {
             .then(data => {
                 return
             })
-            return
-        })
-        .then( () => {
-            //creates a new empty cart
-            const newCart = { user_id: user_id , items:[], total:0, numItems:0 }
-            turbo.create( collections.carts, newCart )
-            .then(data => {
-                req.vertexSession.cart = data
-                res.redirect("/")
+            .then( () => {
+                //creates a new empty cart
+                const newCart = { user_id: user.id , items:[], total:0, numItems:0 }
+                turbo.create( collections.carts, newCart )
+                .then(data => {
+                    req.vertexSession.cart = data
+                    res.redirect("/")
+                    return
+                })
                 return
             })
             return

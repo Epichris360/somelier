@@ -10,14 +10,22 @@ const randomString = (length) => {
 }
 
 //to protect routes where the user must be authorized to enter
-const isAuth = (user) => {
+const isAuth = (user, res) => {
     if( user.id == '' ){
         res.redirect("/")
     }
 }
 
+// if user is logged in it will redirect to root
+// this is in case someone goes to /signin after having signed in
+const isSignedIn = (user, res) => {
+    if( user.id.length > 0 ){
+        res.redirect("/")
+    }
+}
+
 //to protect routes where the user must be an admin to modify something
-const isAdmin = (user) => {
+const isAdmin = (user, res) => {
     if(user.role == constants.customer ){
         res.redirect("/")
     }
@@ -74,10 +82,11 @@ const findTotalAndShipping = (cart) => {
 }
 
 module.exports = {
-    randomString: randomString,
-    isAuth: isAuth,
-    isAdmin: isAdmin,
-    paginationArrays: paginationArrays,
-    pgLinks: pgLinks,
-    findTotalAndShipping: findTotalAndShipping
+    randomString:         randomString,
+    isAuth:               isAuth,
+    isAdmin:              isAdmin,
+    paginationArrays:     paginationArrays,
+    pgLinks:              pgLinks,
+    findTotalAndShipping: findTotalAndShipping,
+    isSignedIn:           isSignedIn
 }
