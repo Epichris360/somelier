@@ -37,13 +37,10 @@ router.post("/update-cart",			cartController.updateCart 	  )
 router.get("/checkout",  cartController.checkout	 )
 router.post("/checkout", cartController.checkoutPost )
 
-//blogs routes
-router.get("/blog-create",      blogController.getCreate  )
-router.post("/blog-create",     blogController.postCreate )
-router.get("/blog-:slug",       blogController.show 	  )
-router.get("/edit-:slug-blog",  blogController.getEdit    )
-router.post("/edit-:slug-blog", blogController.postEdit   )
-router.get("/blogs",			blogController.list       )
+// blogs routes
+// blog creation etc is done in the dashboard
+router.get("/blogs",			blogController.list )
+router.get("/blog-:slug", 		blogController.show )
 
 // events routes go here
 

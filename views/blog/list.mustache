@@ -1,0 +1,53 @@
+{{>top}}
+    <body>
+        {{>navbar}}
+
+        <!-- Header -->
+        <header class="header header-inverse bg-fixed" style="background-image: url('img/bg-wine-shelf.jpg');">
+            <div class="container text-center">
+                <div class="row"> 
+                    <div class="col-12 col-lg-8 offset-lg-2">
+                        <h1>Latest Blog Posts</h1>
+                        <p class="fs-20 opacity-70">Read and get updated on how we progress.</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END Header -->
+
+        <!-- Main container -->
+        <main class="main-content">
+            <section class="section bg-gray">
+                <div class="container">
+                    <div class="row gap-y">
+                        {{#blogs}}
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="card card-hover-shadow">
+                                    <a href="/blog-{{slug}}"><img class="card-img-top" src="{{image}}" alt="Card image cap"></a>
+                                    <div class="card-block">
+                                    <h4 class="card-title">{{title}}</h4>
+                                    <p class="card-text">{{preview}}</p>
+                                    <a class="fw-600 fs-12" href="/blog-{{slug}}">Read more <i class="fa fa-chevron-right fs-9 pl-8"></i></a>
+                                </div>
+                            </div>
+                        {{/blogs}}
+                    </div>
+                </div>
+ 
+                <nav class="flexbox mt-30">
+                    <a class="btn btn-white {{pgLinks.forward.class}}" href="/blogs?page={{pgLinks.forward.num}}" ><i class="ti-arrow-left fs-9 mr-4"></i> Newer</a>
+                    <a class="btn btn-white {{pgLinks.backward.class}}" href="/blogs?page={{pgLinks.backward.num}}">Older <i class="ti-arrow-right fs-9 ml-4"></i></a>
+                </nav>
+            </div>
+        </section>
+    </main>
+    <!-- END Main container -->
+        {{>footer}}
+        {{>scripts}}
+        <script type="text/javascript" >
+            $(function(){
+
+            })
+        </script>
+    </body>
+</html>

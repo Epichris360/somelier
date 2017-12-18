@@ -8,6 +8,7 @@
     "build": ""
   },
   "dependencies": {
+    "html-entities": "^1.2.1",
     "nodemon": "latest",
     "stripe": "^5.4.0",
     "turbo360": "latest",

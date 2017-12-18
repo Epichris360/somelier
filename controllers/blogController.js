@@ -36,11 +36,9 @@ const postCreate = (req, res) => {
 
 const show       = (req, res) => {
     const slug = req.params.slug
-
-    turbo.fetch( collections.blogs, { slug: slug } )
+    turbo.fetch( collections.post, { slug: slug } )
     .then(data => {
-        const paragraphs = data[0].post.split("\n")
-        res.render('blog/show',{ blog: data[0], paragraphs: paragraphs })
+        res.render('blog/show',{ blog: data[0] })
         return
     })
     .catch(err => {
@@ -70,7 +68,27 @@ const postEdit   = (req, res) => {
 }
 
 const list       = (req, res) => {
+    let page
 
+    if( typeof req.query.page == "undefined" || req.query.page == 1 ){
+        page = 0
+    }else{
+        page = req.query.page - 1
+    }
+    turbo.fetch( collections.post, null )
+    .then(data => {
+        const pageData  = functions.paginationArrays(data, 6)
+        const pgLinks   = functions.pgLinks(pageData.length, page)
+        res.render("blog/list", { blogs: pageData[page], pgLinks: pgLinks })
+        return
+    }) 
+    .catch(err => {
+        res.status(500).json({
+            status: false,
+            msg: err.message
+        })
+        return
+    })
 }
 
 
