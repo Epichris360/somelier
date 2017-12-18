@@ -104,6 +104,9 @@
                                     <h1>Uploading....</h1>
                                 </div>
 
+                                <div class="col-12 col-lg-12" id="finished" >
+                                    <h1>Done....</h1>
+                                </div>
                             
                             </div>
                         </div>
@@ -122,6 +125,7 @@
         <script type="text/javascript" >
             $(function(){
                 $("#loading").hide()
+                $("#finished").hide()
                 var currentFiles = []
                 var turbo = Turbo({site_id: '5a2b1ef8dc59a30014c6cb44'}) // Enter your TURBO_APP_ID here 
                 //$("#loading").show()
@@ -135,8 +139,8 @@
                                 err.message,
                                 'error'
                             )
-                            //$("#loading-class").hide()
-                            //$(".uploader-class").show()
+                            $("#loading-class").hide()
+                            $(".uploader-class").show()
                             return
                         }
 
@@ -146,8 +150,8 @@
                                 data.message,
                                 'error'
                             )
-                            //$("#loading-class").hide()
-                            //$(".uploader-class").show()
+                            $("#loading-class").hide()
+                            $(".uploader-class").show()
                             return
                         }
 
@@ -159,14 +163,14 @@
                             'Image(s) were Uploaded!!!!',
                             'success'
                         )
-                        //$("#loading-class").hide()
+                        $("#loading-class").hide()
+                        $("#finished").show()
                         //$(".uploader-class").show()
                         return
                     })
                 })
 
             })
-        
         </script>
 
     </body>
