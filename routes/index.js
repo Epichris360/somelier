@@ -7,6 +7,7 @@ const userController  = require('../controllers/userController' )
 const wineController  = require('../controllers/wineController' )
 const cartController  = require('../controllers/cartController' )
 const blogController  = require('../controllers/blogController' )
+const eventController = require('../controllers/eventController')
 
 const collections = require('../collections')
 
@@ -39,11 +40,17 @@ router.post("/checkout", cartController.checkoutPost )
 
 // blogs routes
 // blog creation etc is done in the dashboard
-router.get("/blogs",			blogController.list )
-router.get("/blog-:slug", 		blogController.show )
+router.get("/blogs",	  blogController.list )
+router.get("/blog-:slug", blogController.show )
 
 // events routes go here
+router.get('/event-create', eventController.getCreate )
 
+
+//
+router.get("/date", function(req, res){
+	res.render('date')
+})
 
 // removes the alert from the session variable
 router.get("/remover-alert", (req, res) => {

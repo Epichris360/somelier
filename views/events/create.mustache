@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+
+        <title>Somelier</title>
+
+        <!--#DatePicker -->
+        <link rel="stylesheet" href="/css/flatpickr.min.css">
+        <script type="text/javascript" src="/js/flatpickr.js" ></script>
+        <!--\ DatePicker -->
+
+        <!-- Styles -->
+        <link href="/css/core.min.css" rel="stylesheet" >
+        <link href="/css/thesaas.min.css" rel="stylesheet" >
+        <link href="/css/style.css" rel="stylesheet" >
+        <link href="/css/pagination.css" rel="stylesheet" >
+        <link href="/css/stripe.css" rel="stylesheet" >
+        <script src="https://js.stripe.com/v3/" ></script>
+
+        <!-- Favicons -->
+        <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+        <link rel="icon" href="img/favicon.png">
+
+    </head>
+
+ 
+    <body class="thesaas-sections-split">
+        {{>navbar}}
+
+        <!-- Header -->
+        <header class="header header-inverse bg-fixed" style="background-image: url(img/bg-glasses-min.jpg)" data-overlay="8">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-12 col-lg-8 offset-lg-2">
+                        <h1>Create a New Event Post!</h1>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END Header -->
+
+        <!-- Main container -->
+        <main class="main-content">
+            <section class="section">
+                <div class="container">
+                    {{>alerts}}
+                    <header class="section-header">
+                        <h2>Create It Now!</h2>
+                    </header>
+                        <form action="/blog-create" method="POST" >
+                            <div class="container">
+                                <div class="row gap-y">
+                                            
+                                    <div class="col-12 col-lg-12">
+                                        <div class="form-group">
+                                            <label>Title:</label>
+                                            <input class="form-control form-control-sm" required
+                                                type="text" placeholder="title" name="title"
+                                            >
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Description:</label>
+                                            <textarea class="form-control"
+                                                name="description" required
+                                                rows="7"  placeholder="Blog Post"
+                                            ></textarea>
+                                        </div>
+
+                                        <input id="dateId" type="text" class="form-control" name="date" >
+                                        
+                                    </div>
+
+                                    <input type="hidden" id="imagesInput" name="image">
+
+                                    <div class="col-12 col-lg-6 uploader-class">
+                                        <button id="btn-file-select"
+                                            class="btn btn-outline btn-primary" 
+                                        >Upload a Picture!</button>
+                                    </div>
+
+                                    <div class="col-12 col-lg-6" id="loading" >
+                                        <h1 >Uploading....</h1>
+                                    </div>
+
+                                    <div class="col-12 col-lg-6" id="finished" >
+                                        <h1>Done....</h1>
+                                    </div>
+
+                                    <div class="col-12 col-lg-6">
+                                        <button type="submit" 
+                                            id="submit"
+                                            class="btn btn-outline btn-success pull-right" 
+                                        >Create!</button>
+                                    </div>
+                                
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- END Main container -->
+
+        <script type="text/javascript" >
+            document.getElementById('dateId').flatpickr()
+        </script>
+        {{>footer}}
+        {{>scripts}}
+        <script type="text/javascript" >
+            $(function(){
+                $("#loading").hide()
+                $("#finished").hide()
+                var currentFiles = []
+                var turbo = Turbo({site_id: '5a2b1ef8dc59a30014c6cb44'}) // Enter your TURBO_APP_ID here 
+                //$("#loading").show()
+                //$(".uploader-class").hide()
+                $('#btn-file-select').click(function(event){
+                    event.preventDefault()
+                    turbo.uploadFile(function(err, data){
+                        if (err){
+                            swal(
+                                'Oops...',
+                                err.message,
+                                'error'
+                            )
+                            $("#loading-class").hide()
+                            $(".uploader-class").show()
+                            return
+                        }
+
+                        if (data.confirmation != 'success'){
+                            swal(
+                                'Oops...',
+                                data.message,
+                                'error'
+                            )
+                            $("#loading-class").hide()
+                            $(".uploader-class").show()
+                            return
+                        }
+
+                        var file = data.result.url
+                        currentFiles.unshift(file)
+                        $("#imagesInput").val(JSON.stringify(currentFiles))
+                        swal(
+                            'Awesome!',
+                            'Image was Uploaded!!!!',
+                            'success'
+                        )
+                        $(".uploader-class").hide()
+                        $("#loading-class").hide()
+                        $("#finished").show()
+                        //$(".uploader-class").show()
+                        return
+                    })
+                })
+
+            })
+        </script>
+    </body>
+</html>
